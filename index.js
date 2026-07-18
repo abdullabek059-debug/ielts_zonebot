@@ -14,6 +14,16 @@ const CDI_PRICE    = 30;
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
+// ─── Global xato ushlagichlar ─────────────────────────────────────────────────
+// Foydalanuvchi botni bloklasa (403) yoki boshqa ushlanmagan xato bo'lsa,
+// bot crash bo'lmasligi uchun bu yerda ushlaymiz.
+process.on('unhandledRejection', (err) => {
+  console.error('⚠️ UnhandledRejection:', err?.response?.body?.description || err?.message || err);
+});
+process.on('uncaughtException', (err) => {
+  console.error('⚠️ UncaughtException:', err?.response?.body?.description || err?.message || err);
+});
+
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('✅ MongoDB ulandi'))
   .catch(err => { console.error('❌ MongoDB xato:', err); process.exit(1); });
